@@ -68,3 +68,25 @@ $ curl -X POST -d username=new -d email=new@example.com -d is_staff=false -H 'Ac
     "is_staff": false,
 }
 ```
+
+### DjangoFilterBackend
+
+install `django-filter`
+```
+$ pip install django-filter
+```
+
+Then add `django_filters` to Django's `INSTALLED_APPS`
+```
+INSTALLED_APPS = [
+    ...
+    'django_filters'
+]
+```
+
+add the filter backend to project's settings
+```
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
+}
+```
