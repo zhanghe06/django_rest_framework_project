@@ -1,5 +1,5 @@
 sudo: no
-dist: trusty,Xenial
+dist: trusty
 
 language: python
 python:
@@ -15,7 +15,7 @@ before_script:
 script:
   - cd app_frontend
   # Copy the coveragerc down so coverage.py can find it.
-  - coverage run --source='snippets' manage.py test
+  - coverage run --source='.' manage.py test
   - coverage report
 after_success:
   - coveralls
