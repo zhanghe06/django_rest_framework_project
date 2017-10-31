@@ -1,5 +1,8 @@
 ## django-rest-framework
 
+[![Build Status](https://travis-ci.org/zhanghe06/django_rest_framework_project.svg?branch=master)](https://travis-ci.org/zhanghe06/django_rest_framework_project)
+[![Coverage Status](https://coveralls.io/repos/github/zhanghe06/django_rest_framework_project/badge.svg?branch=master)](https://coveralls.io/github/zhanghe06/django_rest_framework_project?branch=master)
+
 http://www.django-rest-framework.org/
 
 https://github.com/encode/django-rest-framework
@@ -11,6 +14,7 @@ $ pip install django
 $ pip install djangorestframework
 $ pip install markdown
 $ pip install django-filter
+$ pip install coverage                      # OPTION (UnitTest Coverage)
 $ django-admin.py startproject example .
 $ ./manage.py migrate
 $ ./manage.py createsuperuser
@@ -89,4 +93,47 @@ add the filter backend to project's settings
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
 }
+```
+
+### UnitTest and Coverage
+
+```
+$ python manage.py test snippets
+```
+
+```
+$ coverage run --source='.' manage.py test
+$ coverage report
+Name                                  Stmts   Miss  Cover
+---------------------------------------------------------
+example/__init__.py                       0      0   100%
+example/settings.py                      19      0   100%
+example/urls.py                           9      0   100%
+manage.py                                 2      0   100%
+snippets/__init__.py                      0      0   100%
+snippets/admin.py                         2      0   100%
+snippets/apps.py                          4      0   100%
+snippets/migrations/0001_initial.py       8      0   100%
+snippets/migrations/__init__.py           0      0   100%
+snippets/models.py                       28      6    79%
+snippets/permissions.py                   7      3    57%
+snippets/serializers.py                  15      0   100%
+snippets/tests.py                         8      0   100%
+snippets/urls.py                         18     18     0%
+snippets/views.py                        34      4    88%
+---------------------------------------------------------
+TOTAL                                   154     31    80%
+```
+
+
+### PY2 & PY3
+
+Py3's code still running on Python 2.7
+
+```python
+# unicode
+from __future__ import unicode_literals
+
+# division /, //
+from __future__ import division
 ```

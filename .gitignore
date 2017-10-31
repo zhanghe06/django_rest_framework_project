@@ -3,3 +3,8 @@
 django_rest.env
 *.pyc
 .idea/
+
+
+.coverage
+htmlcov/
+.coveralls.yml

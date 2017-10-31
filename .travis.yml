@@ -1,0 +1,21 @@
+sudo: no
+dist: trusty,Xenial
+
+language: python
+python:
+  - "3.6"
+# command to install dependencies
+install:
+  - pip install -r requirements.txt
+  - pip install coveralls
+  - pip install pyyaml
+# command to run tests
+before_script:
+  - mysql -e "SOURCE db/schema/mysql.sql; SOURCE db/data/mysql.sql; SHOW databases; SHOW tables;"
+script:
+  - cd app_frontend
+  # Copy the coveragerc down so coverage.py can find it.
+  - coverage run --source='snippets' manage.py test
+  - coverage report
+after_success:
+  - coveralls
