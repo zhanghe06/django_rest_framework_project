@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+from celery.schedules import crontab
+import djcelery
+djcelery.setup_loader()
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -39,10 +43,18 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'snippets.apps.SnippetsConfig',
+    'app_task.apps.AppTaskConfig',
+    'uploads.apps.UploadsConfig',
+    'orders.apps.OrdersConfig',
     'django_filters',
 ]
 
+INSTALLED_APPS += ("djcelery", )
+
 MIDDLEWARE = [
+    # 'middlewares.exception.ExceptionMiddleware',
+    # 'middlewares.request_log.RequestLogMiddleware',
+    # 'middlewares.request_id.RequestIdMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -121,6 +133,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')  # DEBUG = False (product model)
+
+# uploads files
+MEDIA_URL = '/downloads/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'downloads')
+
 
 # REST_FRAMEWORK = {
 #     # Use Django's standard `django.contrib.auth` permissions,
@@ -132,7 +150,40 @@ STATIC_URL = '/static/'
 
 # user_settings
 REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 10,
+    # 'EXCEPTION_HANDLER': 'rest_framework.exceptions.APIExceptionHandler',
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    # 'PAGE_SIZE': 10,
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
+}
+
+# redis
+# BROKER_BACKEND = 'redis'
+# BROKER_URL = 'redis://127.0.0.1:6379/0'
+
+CELERY_IMPORTS = ('snippets.tasks', )
+CELERY_TIMEZONE = TIME_ZONE
+CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'simple': {
+            'format': '[%(asctime)s] %(message)s'
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+    },
 }

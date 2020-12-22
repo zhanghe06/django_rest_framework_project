@@ -13,6 +13,8 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 
 from django.conf.urls import url, include
@@ -42,6 +44,9 @@ from django.conf.urls import url, include
 # --------------------
 from snippets import views
 from rest_framework.routers import DefaultRouter
+from app_task.urls import urlpatterns as app_task_urlpatterns
+from uploads.urls import urlpatterns as uploads_urlpatterns
+from orders.urls import urlpatterns as orders_urlpatterns
 
 # Create a router and register our viewsets with it.
 router = DefaultRouter()
@@ -59,3 +64,12 @@ urlpatterns = [
 urlpatterns += [
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
+
+urlpatterns += app_task_urlpatterns
+urlpatterns += uploads_urlpatterns
+urlpatterns += orders_urlpatterns
+
+# ^downloads\/(?P<path>.*)$
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# ^static\/(?P<path>.*)$
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

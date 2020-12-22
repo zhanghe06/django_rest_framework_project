@@ -1,6 +1,6 @@
 ## Requests & Responses
 
-http://www.django-rest-framework.org/tutorial/2-requests-and-responses/
+[http://www.django-rest-framework.org/tutorial/2-requests-and-responses](http://www.django-rest-framework.org/tutorial/2-requests-and-responses)
 
 ```
 $ http http://127.0.0.1:8000/snippets/
