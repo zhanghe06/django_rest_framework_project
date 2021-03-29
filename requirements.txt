@@ -13,6 +13,6 @@ Pillow==6.2.2
 pyexcel==0.5.15
 pyexcel-io==0.5.20
 pyexcel-webio==0.1.4
-Pygments==2.5.2
+Pygments==2.7.4
 pytz==2020.1
 texttable==1.6.2
