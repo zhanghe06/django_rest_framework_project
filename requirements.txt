@@ -9,7 +9,7 @@ django-filter==2.0.0
 djangorestframework==3.9.4
 kombu==3.0.37
 lml==0.0.9
-Pillow==6.2.2
+Pillow==9.0.0
 pyexcel==0.5.15
 pyexcel-io==0.5.20
 pyexcel-webio==0.1.4
